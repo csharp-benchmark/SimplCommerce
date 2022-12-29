@@ -67,7 +67,7 @@ namespace SimplCommerce.Module.Notifications.Services
         {
             List<long> userIds;
 
-            if (!notificationScheme.UserIds.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(notificationScheme.UserIds))
             {
                 //Directly get from UserIds and filter out not receive notification users
                 userIds = notificationScheme
@@ -75,7 +75,7 @@ namespace SimplCommerce.Module.Notifications.Services
                     .Split(",")
                     .Select(long.Parse)
                     .Where(uid =>
-                        AsyncHelper.RunSync(() => _settingService.GetSettingValueForUserAsync(uid, SettingDefinitions.Names.ReceiveNotifications)).ToUpper() == "TRUE")
+                        _settingService.GetSettingValueForUserAsync(uid, SettingDefinitions.Names.ReceiveNotifications).Result.ToUpper() == "TRUE")
                     .ToList();
             }
             else
@@ -92,7 +92,7 @@ namespace SimplCommerce.Module.Notifications.Services
                 foreach (var subscription in subscriptions)
                 {
                     if (!await _notificationDefinitionManager.IsAvailableAsync(notificationScheme.NotificationName, subscription.UserId) ||
-                        AsyncHelper.RunSync(() => _settingService.GetSettingValueForUserAsync(subscription.UserId, SettingDefinitions.Names.ReceiveNotifications)).ToUpper() != "TRUE")
+                        _settingService.GetSettingValueForUserAsync(subscription.UserId, SettingDefinitions.Names.ReceiveNotifications).Result.ToUpper() != "TRUE")
                     {
                         invalidSubscriptions[subscription.Id] = subscription;
                     }
@@ -104,7 +104,7 @@ namespace SimplCommerce.Module.Notifications.Services
                 userIds = subscriptions.Select(s => s.UserId).ToList();
             }
 
-            if (!notificationScheme.ExcludedUserIds.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(notificationScheme.ExcludedUserIds))
             {
                 //Exclude specified userIds.
                 var excludedUserIds = notificationScheme

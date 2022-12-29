@@ -29,16 +29,16 @@ namespace SimplCommerce.Module.Notifications.Areas.Notifications.Controllers
         [HttpPost]
         public async Task<ActionResult> TestNotification(TestNotificationVm inputDto)
         {
-            if (inputDto.Message.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(inputDto.Message))
             {
                 inputDto.Message = "This is a test notification, created at " + DateTime.Now;
             }
 
-            await _testNotifier.SendMessageAsync(
-                inputDto.UserId,
-                inputDto.Message,
-                inputDto.Severity.ToPascalCase().ToEnum<NotificationSeverity>()
-                );
+            //await _testNotifier.SendMessageAsync(
+            //    inputDto.UserId,
+            //    inputDto.Message,
+            //    inputDto.Severity.ToEnum<NotificationSeverity>()
+            //    );
 
             return RedirectToAction("Index");
         }

@@ -21,7 +21,7 @@ namespace SimplCommerce.Module.Notifications.Jobs
 
         public override void Execute(NotificationDistributionJobArgs args)
         {
-            AsyncHelper.RunSync(() => _notificationDistributer.DistributeAsync(args.NotificationId));
+            _notificationDistributer.DistributeAsync(args.NotificationId).RunSynchronously();
         }
     }
 }

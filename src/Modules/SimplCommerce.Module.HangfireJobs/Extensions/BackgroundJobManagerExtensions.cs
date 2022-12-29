@@ -18,7 +18,7 @@ namespace SimplCommerce.Module.HangfireJobs.Extensions
         /// <param name="delay">Job delay (wait duration before first try).</param>
         public static string Enqueue<TArgs>(this IBackgroundJobManager backgroundJobManager, TArgs args, TimeSpan? delay = null)
         {
-            return AsyncHelper.RunSync(() => backgroundJobManager.EnqueueAsync(args, delay));
+            return backgroundJobManager.EnqueueAsync(args, delay).Result;
         }
     }
 }

@@ -17,10 +17,10 @@ namespace SimplCommerce.Module.SignalR
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<CommonHub>("/signalr");
-            });
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<CommonHub>("/signalr");
+            //});
         }
     }
 }

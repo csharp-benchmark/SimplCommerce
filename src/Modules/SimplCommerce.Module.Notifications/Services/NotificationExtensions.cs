@@ -20,7 +20,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static void Subscribe(this INotificationSubscriptionManager notificationSubscriptionManager, long userId, string notificationName, EntityIdentifier entityIdentifier = null)
         {
-            AsyncHelper.RunSync(() => notificationSubscriptionManager.SubscribeAsync(userId, notificationName, entityIdentifier));
+            notificationSubscriptionManager.SubscribeAsync(userId, notificationName, entityIdentifier).RunSynchronously();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static void SubscribeToAllAvailableNotifications(this INotificationSubscriptionManager notificationSubscriptionManager, long userId)
         {
-            AsyncHelper.RunSync(() => notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(userId));            
+            notificationSubscriptionManager.SubscribeToAllAvailableNotificationsAsync(userId).RunSynchronously();            
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static void Unsubscribe(this INotificationSubscriptionManager notificationSubscriptionManager, long userId, string notificationName, EntityIdentifier entityIdentifier = null)
         {
-            AsyncHelper.RunSync(() => notificationSubscriptionManager.UnsubscribeAsync(userId, notificationName, entityIdentifier));
+            notificationSubscriptionManager.UnsubscribeAsync(userId, notificationName, entityIdentifier).RunSynchronously();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static List<NotificationSubscriptionDto> GetSubscriptions(this INotificationSubscriptionManager notificationSubscriptionManager, string notificationName, EntityIdentifier entityIdentifier = null)
         {
-            return AsyncHelper.RunSync(() => notificationSubscriptionManager.GetSubscriptionsAsync(notificationName, entityIdentifier));
+            return notificationSubscriptionManager.GetSubscriptionsAsync(notificationName, entityIdentifier).Result;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static List<NotificationSubscriptionDto> GetSubscribedNotifications(this INotificationSubscriptionManager notificationSubscriptionManager, long userId)
         {
-            return AsyncHelper.RunSync(() => notificationSubscriptionManager.GetSubscribedNotificationsAsync(userId));
+            return notificationSubscriptionManager.GetSubscribedNotificationsAsync(userId).Result;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// </summary>
         public static bool IsSubscribed(this INotificationSubscriptionManager notificationSubscriptionManager, long userId, string notificationName, EntityIdentifier entityIdentifier = null)
         {
-            return AsyncHelper.RunSync(() => notificationSubscriptionManager.IsSubscribedAsync(userId, notificationName, entityIdentifier));
+            return notificationSubscriptionManager.IsSubscribedAsync(userId, notificationName, entityIdentifier).Result;
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="userIds">Target user id(s). Used to send notification to specific user(s). If this is null/empty, the notification is sent to all subscribed users</param>
         public static void Publish(this INotificationPublisher notificationPublisher, string notificationName, NotificationData data = null, EntityIdentifier entityIdentifier = null, NotificationSeverity severity = NotificationSeverity.Info, long[] userIds = null)
         {
-            AsyncHelper.RunSync(() => notificationPublisher.PublishAsync(notificationName, data, entityIdentifier, severity, userIds));
+            notificationPublisher.PublishAsync(notificationName, data, entityIdentifier, severity, userIds).RunSynchronously();
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="maxResultCount">Maximum result count.</param>
         public static List<UserNotificationDto> GetUserNotifications(this IUserNotificationManager userNotificationManager, long userId, UserNotificationState? state = null, int skipCount = 0, int maxResultCount = int.MaxValue)
         {
-            return AsyncHelper.RunSync(() => userNotificationManager.GetUserNotificationsAsync(userId, state, skipCount: skipCount, maxResultCount: maxResultCount));
+            return userNotificationManager.GetUserNotificationsAsync(userId, state, skipCount: skipCount, maxResultCount: maxResultCount).Result;
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="state">State.</param>
         public static int GetUserNotificationCount(this IUserNotificationManager userNotificationManager, long userId, UserNotificationState? state = null)
         {
-            return AsyncHelper.RunSync(() => userNotificationManager.GetUserNotificationCountAsync(userId, state));
+            return userNotificationManager.GetUserNotificationCountAsync(userId, state).Result;
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="userNotificationId">The user notification id.</param>
         public static UserNotificationDto GetUserNotification(this IUserNotificationManager userNotificationManager, Guid userNotificationId)
         {
-            return AsyncHelper.RunSync(() => userNotificationManager.GetUserNotificationAsync(userNotificationId));
+            return userNotificationManager.GetUserNotificationAsync(userNotificationId).Result;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="state">New state.</param>
         public static void UpdateUserNotificationState(this IUserNotificationManager userNotificationManager,Guid userNotificationId, UserNotificationState state)
         {
-            AsyncHelper.RunSync(() => userNotificationManager.UpdateUserNotificationStateAsync(userNotificationId, state));
+            userNotificationManager.UpdateUserNotificationStateAsync(userNotificationId, state).RunSynchronously();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="state">New state.</param>
         public static void UpdateAllUserNotificationStates(this IUserNotificationManager userNotificationManager, long userId, UserNotificationState state)
         {
-            AsyncHelper.RunSync(() => userNotificationManager.UpdateAllUserNotificationStatesAsync(userId, state));
+            userNotificationManager.UpdateAllUserNotificationStatesAsync(userId, state).RunSynchronously();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="userNotificationId">The user notification id.</param>
         public static void DeleteUserNotification(this IUserNotificationManager userNotificationManager, Guid userNotificationId)
         {
-            AsyncHelper.RunSync(() => userNotificationManager.DeleteUserNotificationAsync(userNotificationId));
+            userNotificationManager.DeleteUserNotificationAsync(userNotificationId).RunSynchronously();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="user">The user id.</param>
         public static void DeleteAllUserNotifications(this IUserNotificationManager userNotificationManager, long userId)
         {
-            AsyncHelper.RunSync(() => userNotificationManager.DeleteAllUserNotificationsAsync(userId));
+            userNotificationManager.DeleteAllUserNotificationsAsync(userId).RunSynchronously();
         }
 
         #endregion

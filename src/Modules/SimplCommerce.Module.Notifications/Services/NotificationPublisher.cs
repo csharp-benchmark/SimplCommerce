@@ -42,7 +42,7 @@ namespace SimplCommerce.Module.Notifications.Services
             long[] userIds = null,
             long[] excludedUserIds = null)
         {
-            if (notificationName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(notificationName))
             {
                 throw new ArgumentException("NotificationName can not be null or whitespace!", nameof(notificationName));
             }

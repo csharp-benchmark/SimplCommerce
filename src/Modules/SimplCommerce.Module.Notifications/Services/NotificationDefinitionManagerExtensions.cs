@@ -18,7 +18,7 @@ namespace SimplCommerce.Module.Notifications.Services
         /// <param name="userId">User</param>
         public static IReadOnlyList<NotificationDefinition> GetAllAvailable(this INotificationDefinitionManager notificationDefinitionManager, long userId)
         {
-            return AsyncHelper.RunSync(() => notificationDefinitionManager.GetAllAvailableAsync(userId));
+            return notificationDefinitionManager.GetAllAvailableAsync(userId).Result;
         }
         /// <summary>
         /// Add Notification Definition Items Extensions
